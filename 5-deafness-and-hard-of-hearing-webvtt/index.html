@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+	<title>WebVTT - Practical Web Inclusion and Accessibility</title>
+	<meta charset="UTF-8">
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/captions.css">
+</head>
+<body>
+
+<header>
+	<nav>
+		<button aria-label="Navigation Menu" aria-expanded="false" class="menu__item toggle"><span></span></button>
+		<ul class="menu" id="menu">
+			<li class="menu__item"><a href="https://twitter.com/mrfirthy" class="link">Twitter</a></li>
+			<li class="menu__item"><a href="mailto:ashley@mrfirthy.me" class="link">Email</a></li>
+			<li class="menu__item"><a href="https://codepen.io/mrfirthy" class="link">Codepen</a></li>
+			<li class="menu__item"><a href="https://github.com/mrfirthy" class="link">Github</a></li>
+		</ul>
+    </nav>
+    <div class="hero">
+		<h1 class="hero__title">Joe's website emporium</h1>
+		<p class="hero__description">For all your high quality, accessible web needs</p>
+    </div>
+    <div class="hero__terminal">
+		<pre>
+			<code class="shell-session demo">Today's lesson: <span>WebVTT</span></code>
+		</pre>
+    </div>
+</header>
+
+<main class="wrapper">
+	<section>
+		<hr>
+
+		<h2>Video</h2>
+		<p>Providing captions for your videos ensures that the content you're providing is accessible to those with deafness or hearing issues, as well as British Sign Language (BSL) users. This feature can be added retrospectively to content you already have, and the WebVTT (<code>.vtt</code>) file needed is easy to create and understand.</p>
+		<p>Here is the <code>.vtt</code> used in the video below, in case you'd like to use it as a starting point:</p>
+		<a href="vtt/video.vtt" class="button--primary">Download sample WebVTT file</a>
+		<p>As you will see from the file above, we've used a couple of the rules mentioned in the chapter as examples of how you can alter the display and aesthetics of captions - there is a mixture of <code>align</code>, <code>position</code>, <code>line</code>, and <code>Bold (&lt;b&gt;)</code> in the video below, all controlled through the <code>.vtt</code> file.</p>
+
+		<video controls="true" poster="img/poster.jpg">
+			<source src="media/video.mp4" type="video/mp4">
+			<source src="media/video.webm" type="video/webm">
+			<track label="English" kind="subtitles" srclang="en" src="vtt/video.vtt" default />
+		</video>
+
+		<p><strong>Note:</strong> IE will completely ignore WebVTT files unless you define the MIME type. This can easily be done by adding an <code>.htaccess</code> file to an appropriate directory and adding <code>AddType text/vtt .vtt</code>.</p>
+
+		<hr>
+
+		<h2>Audio</h2>
+		<p>As we mentioned in the chapter, captions currently don't display properly when added to the native <code>&lt;audio&gt;</code> tag, so we have to work out this. There are two consistent alternatives you can implement, both of which involve using the <code>&lt;video&gt;</code> tag:</p>
+
+		<h3>Audio using <code>&lt;video&gt;</code> (specified height and <code>line</code> attribute)</h3>
+		<p>My personal favourite, as it allows the audio player to remain relatively small in height, and keeps the focus on the captions that sit near to it.</p>
+		<p>It involves setting an explicit height for the video element to give it space to display the captions, and then adding the <code>line:1</code> attribute to each individual line in the <code>.vtt</code> file to ensure that the captions are displayed at the top of the element:</p>
+		<video class="audio" controls>
+			<source src="media/audio.mp3" type="audio/mpeg">
+			<track label="English" kind="subtitles" srclang="en" src="vtt/audio.vtt" default />
+		</video>
+
+		<hr>
+
+		<h3>Audio using <code>&lt;video&gt;</code> (background poster)</h3>
+		<p>The other alternative that doesn't require adding an attribute to every line in the <code>.vtt</code> is setting a <code>poster</code> attribute to the video. This is typically used to display a temporary snapshot of a video whilst it loads, but in this case it can provide the video element with the same height as a typical video, which in turn allows the captions to display in the same way:</p>
+		<video controls poster="img/poster.jpg">
+			<source src="media/audio.mp3" type="audio/mpeg">
+			<track label="English" kind="subtitles" srclang="en" src="vtt/audio.vtt" default />
+		</video>
+
+		<hr>
+	</section>
+</main>
+
+<footer>
+	<p>Copyright Joe's website emporium.</p>
+	<p>Part of a series of examples for the book 'Practical Web Inclusion and Accessibility' by Ashley Firth</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

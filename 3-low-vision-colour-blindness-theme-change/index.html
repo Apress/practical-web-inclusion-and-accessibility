@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+	<title>Changing theme - Practical Web Inclusion and Accessibility</title>
+	<meta charset="UTF-8">
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/theme-change.css">
+</head>
+<body>
+
+<header>
+	<nav>
+		<button aria-label="Navigation Menu" aria-expanded="false" class="menu__item toggle"><span></span></button>
+		<ul class="menu" id="menu">
+			<li class="menu__item"><a href="https://twitter.com/mrfirthy" class="link">Twitter</a></li>
+			<li class="menu__item"><a href="mailto:ashley@mrfirthy.me" class="link">Email</a></li>
+			<li class="menu__item"><a href="https://codepen.io/mrfirthy" class="link">Codepen</a></li>
+			<li class="menu__item"><a href="https://github.com/mrfirthy" class="link">Github</a></li>
+		</ul>
+    </nav>
+    <div class="hero">
+		<h1 class="hero__title">Joe's website emporium</h1>
+		<p class="hero__description">For all your high quality, accessible web needs</p>
+    </div>
+    <div class="hero__terminal">
+		<pre>
+			<code class="shell-session demo">Today's lesson: <span>Changing theme for low vision users</span></code>
+		</pre>
+    </div>
+</header>
+
+<main id="content" class="wrapper">
+	<section>
+		<hr>
+
+		<div class="switch-wrap">
+		  <div class="switch">
+		    <h2>Switch theme</h2>
+		    <input class="switch-input" id="theme-switch" type="checkbox"/>
+		    <label class="switch-button" for="theme-switch" tabindex="0" data-action="aria-switch"><span class="sr-only">Switch the page theme</span></label>
+		  </div>
+		</div>
+
+		<h2>How to offer a theme change</h2>
+		<p>If you try interacting with the switch just above, you will see that you can toggle the theme of the entire page between the standard style and an inverted version with one click. The key to achieving this is by using the following CSS code to invert all colours on your page, and only applying the style to a class that you then add when the toggle state is active (in this case the <code class="code code--inline">invert</code> class):</p>
+
+		<hr>
+
+		<div class="nohighlight code">
+			body.invert {
+				filter: invert(100%);
+			}
+		</div>
+
+		<hr>
+
+		<p><strong>Note:</strong> This applies to almost all modern browsers, with Internet Explorer being the only notable exception. This example project also contains:</p>
+		<ul>
+			<li>Fallback styles to apply to the <code class="code code--inline">invert</code> class to make this work in Internet Explorer</li>
+			<li>JavaScript to toggle the adding/removing of the <code class="code code--inline">invert</code> class when the switch is changed</li>
+			<li>JavaScript to make the switch interactive for users using only a keyboard.</li>
+		</ul>
+
+		<h2>Why offer a theme change?</h2>
+		<p>Users with various visual impairments can have trouble interacting with certain colour schemes, and these barriers can alter based on a range of factors such as the time of day. As a result, it can be helpful to provide users with the ability to quickly switch to a colour scheme they feel more comfortable with, rather than forcing them to find software to achieve the same result or, more likely, another site to achieve what they were going to do on yours. A feature such as this can be trivial to implement, and can appeal to all users.</p>
+	</section>
+</main>
+
+<footer>
+	<p>Copyright Joe's website emporium.</p>
+	<p>Part of a series of examples for the book 'Practical Web Inclusion and Accessibility' by Ashley Firth</p>
+</footer>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+  crossorigin="anonymous"></script>
+<script src="js/app.js"></script>
+<script src="js/theme-change.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+#skip-to-main-content {
+  padding: 1em;
+  position: absolute;
+  top: -4000px;
+  left: 1em;
+  z-index: 1000;
+  color: white;
+}
+
+#skip-to-main-content:focus {
+  position: absolute;
+  top: 0;
+  background: #FE6A6B;
+}

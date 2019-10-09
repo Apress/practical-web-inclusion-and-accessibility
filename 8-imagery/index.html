@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109587501-2"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-109587501-2');
+	</script>
+
+	<title>Accessible imagery - Practical Web Inclusion and Accessibility</title>
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex" />
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/imagery.css">
+	<!-- Font awesome kit - You need to generate one of these for yourself at https://fontawesome.com -->
+    <script src="https://kit.fontawesome.com/a574112210.js"></script>
+</head>
+<body>
+
+<header>
+	<nav>
+		<button aria-label="Navigation Menu" aria-expanded="false" class="menu__item toggle"><span></span></button>
+		<ul class="menu" id="menu">
+			<li class="menu__item"><a href="https://twitter.com/mrfirthy" class="link">Twitter</a></li>
+			<li class="menu__item"><a href="mailto:ashley@mrfirthy.me" class="link">Email</a></li>
+			<li class="menu__item"><a href="https://codepen.io/mrfirthy" class="link">Codepen</a></li>
+			<li class="menu__item"><a href="https://github.com/mrfirthy" class="link">Github</a></li>
+		</ul>
+    </nav>
+    <div class="hero">
+		<h1 class="hero__title">Joe's website emporium</h1>
+		<p class="hero__description">For all your high quality, accessible web needs</p>
+    </div>
+    <div class="hero__terminal">
+		<pre>
+			<code class="shell-session demo">Today's lesson: <span>Accessible imagery</span></code>
+		</pre>
+    </div>
+</header>
+
+<main id="content" tabindex="-1">
+	<div class="wrapper">
+		<section>
+			<hr>
+
+			<h2>Accessible background video</h2>
+			<p>Below is the end result of the 'accessible background video' that we covered in Chapter 8: 'Imagery'. It contains all of the following to ensure that it's as accessible as it can be:</p> 
+			<ul>
+				<li>A button to quickly pause or play the video as the user pleases</li>
+				<li>A consistent colour scheme so it doesn't interfere with the content that's overlaid onto it</li>
+				<li>Motion confined to a particular part of the video so it it's predictable and not overly distracting</li>
+				<li>No sound, as well as the <code>muted</code> attribute added to be sure</li>
+				<li>No looping of the video</li>
+				<li>A transition to a static background once the video has ended</li>
+				<li>A function that stops the video from playing is the users has selected in their settings that they prefer reduced motion</li>
+				<li>No video is displayed on devices below 768 pixels (portrait iPad) to avoid unnecessary use of a user's data, and increased load time.</li>
+			</ul> 
+
+			<p><strong>A quick note:</strong> we use a little loading trick to ensure that the video poster is available to present as soon as the page is loaded by using the <code>&lt;link&gt;</code> - you can <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content">find more about video loading performance here</a></p>
+
+			<hr>
+		</section>
+	</div>
+
+	<section>
+		<div class="video-wrap">
+	        <link as="image" rel="preload" href="assets/poster.jpg" media="(min-width: 767px)"/>
+	        <video
+	            id="myVideo"
+	            class="invisible js-remove-video-on-mobile"
+	            muted
+	            playsinline
+	            data-src="assets/video.mp4"
+	            data-poster="assets/poster.jpg"
+	        >
+	        </video>
+	        <h2>Text over the video</h2>
+	        <button class="js-video-button button--primary">Pause</button>
+	    </div>
+	</section>
+
+	<div class="wrapper">
+		<section>
+			<hr>
+
+			<h2>Accessible icons</h2>
+			<p>Below are some of the approaches we covered in the iconography sections, all of which have been optimised for accessibility:</p>
+
+			<h3><code>&lt;img&gt;</code> tag icon:</h3>
+			<p>The simplest approach, with an <code>alt</code> attribute added so the contents can be described to users using assistive technologies.</p>
+			<pre class="nohighlight code">
+			    <code>
+			    	&lt;img src="assets/img.png" alt="Warning"&gt;
+			    </code>
+			</pre>
+			<img src="assets/img.png" alt="Warning" width="100">
+
+			<h3>Sprite icon:</h3>
+			<p>A few examples of images being displayed from the same image sprite, as well as descriptions for each of the icons inside an element that is hidden visually but available to a screen reader:</p>
+			<pre class="nohighlight code">
+			    <code>
+			    	&lt;div class="sprite sprite--success"&gt;
+						&lt;span class="sr-only"&gt;Action successful&lt;/span&gt;
+					&lt;/div&gt;
+			    </code>
+			</pre>
+
+			<pre class="nohighlight code">
+			    <code>
+			    	&lt;div class="sprite sprite--warning"&gt;
+						&lt;span class="sr-only"&gt;An error occurred&lt;/span&gt;
+					&lt;/div&gt;
+			    </code>
+			</pre>
+			<div class="sprite sprite--success">
+				<span class="sr-only">Action successful</span>
+			</div>
+			<div class="sprite sprite--warning">
+				<span class="sr-only">An error occurred</span>
+			</div>
+
+			<h3>Icon font icon:</h3>
+			<p>This example uses the font awesome icon font, now using SVG. We have added a <code>title</code> attribute to showcase the additions that the library makes to optimise their icons, but also the <code>aria-hidden="true"</code> property on the section icon to showcase how a purely decorative icon can be hidden</p>
+
+			<pre class="nohighlight code">
+			    <code>
+			    	&lt;i aria-hidden="true" class="fas fa-car" title="Time to destination by car"&gt;&lt;/i&gt;
+			    </code>
+			</pre>
+			<pre class="nohighlight code">
+			    <code>
+			    	&lt;span class="sr-only"&gt;Time to destination by car:&lt;/span&gt;
+			    </code>
+			</pre>
+
+			<div class="icon-font-example">
+				<div>
+					<i aria-hidden="true" class="fas fa-car" title="Time to destination by car"></i>
+					<span class="sr-only">Time to destination by car:</span>
+				</div>
+				<p>2 hours, 22 minutes.</p>
+			</div>
+
+			<h3>SVG icon:</h3>
+			<p>The final example is an inline SVG that has been placed into this web page, complete with the following to ensure that it is accessible:</p>
+			<ul>
+				<li>A role of <code>img</code> so that it can be recognised as such by assistive technologies.</li>
+				<li>A <code>&lt;title&gt;</code> tag naming the icon, linked to the SVG using the <code>aria-labelledby</code> attribute.</li>
+				<li>A <code>&lt;desc&gt;</code> tag describing the contents of the icon, linked to the SVG using the <code>aria-describedby</code> attribute</li>
+			</ul>
+			<pre class="nohighlight code nested">
+&lt;svg 
+	aria-labelledby="bolt-title" 
+	aria-describedby="bolt-desc" 
+	role=“img”
+&gt;
+    &lt;title id=“bolt-title”&gt;Lightning&lt;/title&gt;
+    &lt;desc id=“bolt-desc”&gt;Silhouette of a lightning strike&lt;/desc&gt;
+    …
+&lt;/svg&gt;
+			</pre>
+			<svg viewBox="0 0 23 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="bolt-title" aria-describedby="bolt-desc" role="img">
+			    <title id="bolt-title">Electricity icon</title>
+			    <desc id="bolt-desc">A silhouette of a Lightning bolt</desc>
+			    <defs></defs>
+			    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-80.000000, -1193.000000)">
+			        <polygon fill="#ED0077" fill-rule="nonzero" points="84.5198404 1230 88.74 1212.96053 80 1212.96053 90.12 1193 99.32 1193 92.88 1205.65789 103 1205.65789"></polygon>
+			    </g>
+			</svg>
+
+			<hr>
+		</section>
+	</div>
+</main>
+
+<aside class="checklist">
+	<div class="wrapper">
+		<h2 class="section__title">When adding SVG's into sites</h2>
+		<div class="checklist__item">
+			<div class="checklist__meta">
+				<h4 class="checklist__title">Do:</h4>
+			</div>
+			<div class="checklist__detail">
+				<ul>
+					<li>Ensure the <span class="code code--inline">&lt;title&gt;</span> and <span class="code code--inline">&lt;desc&gt;</span> tags have been added.</li>
+					<li>Add the <span class="code code--inline">aria-labelledby</span> and <span class="code code--inline">aria-describedby</span> attributes to the SVG (with the content matching the ID's of the <span class="code code--inline">&lt;title&gt;</span> and <span class="code code--inline">&lt;desc&gt;</span> tags.</li>
+					<li>Add a role of <span class="code code--inline">img</span> to the SVG.</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="checklist__item">
+			<div class="checklist__meta">
+				<h4 class="checklist__title">Don't:</h4>
+			</div>
+			<div class="checklist__detail">
+				<ul>
+					<li>Namespace the classes in an SVG (Illustrator namespaces all styling classes with <span class="code code--inline">.st</span> so having more than one SVG in the same document could create style clashes.</li>
+					<li>Forgot to check colour contrast ratios between any colour in the SVG and the background.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</aside>
+
+<footer>
+	<p>Copyright Joe's website emporium.</p>
+	<p>Part of a series of examples for the book 'Practical Web Inclusion and Accessibility' by Ashley Firth</p>
+</footer>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="js/app.js"></script>
+<script src="js/video.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+	<title>Accessible autocomplete - Practical Web Inclusion and Accessibility</title>
+	<meta charset="UTF-8">
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/autocomplete.css">
+</head>
+<body>
+
+<header>
+	<nav>
+		<button aria-label="Navigation Menu" aria-expanded="false" class="menu__item toggle"><span></span></button>
+		<ul class="menu" id="menu">
+			<li class="menu__item"><a href="https://twitter.com/mrfirthy" class="link">Twitter</a></li>
+			<li class="menu__item"><a href="mailto:ashley@mrfirthy.me" class="link">Email</a></li>
+			<li class="menu__item"><a href="https://codepen.io/mrfirthy" class="link">Codepen</a></li>
+			<li class="menu__item"><a href="https://github.com/mrfirthy" class="link">Github</a></li>
+		</ul>
+    </nav>
+    <div class="hero">
+		<h1 class="hero__title">Joe's website emporium</h1>
+		<p class="hero__description">For all your high quality, accessible web needs</p>
+    </div>
+    <div class="hero__terminal">
+		<pre>
+			<code class="shell-session demo">Today's lesson: <span>Accessible autocomplete</span></code>
+		</pre>
+    </div>
+</header>
+
+<main id="content" class="wrapper">
+	<section>
+		<h2>Why is this important?</h2>
+		<p>Autocomplete is the feature on many search boxes that guesses what you've started to type, in an effort to save user's time. However by default these components aren't great at accomodating for human error such as spelling errors or providing the correct letters but in the wrong order. This usually demands precision which can offset the time saved by implementing it, and even make the process longer.</p>
+
+		<p>Below is an example of this problem (that we'll call "strict search"), along with an alternative solution called "fuzzy search" which is more accomodating of these errors. Both are easy to implement, but it's clear to see which one holds the potential to help the most users.</p>
+
+		<h2>Strict search</h2>
+		<p>Created using the most used autocomplete on the web - <a href="https://jqueryui.com/autocomplete/" target="_blank">jQueryUI Autocomplete</a>.</p>
+		<p>This is easy to implement, but it can only return results that are spelt correctly, and so has no flexibility in returning results that are close to certain results.</p>
+
+		<h3>Search examples that will return <code>Croatia</code>:</h3>
+		<ul>
+			<li>Cro (options appear after typing 3 letters)</li>
+			<li>Croatia</li>
+		</ul>
+
+		<hr>
+
+		<form>
+			<label for="strict-search">Search for a country:</label>
+			<input id="strict-search" autocomplete="off" autofocus="" placeholder="Country or dependent territory">
+		</form>
+
+		<hr>
+
+		<h2>'Fuzzy' search</h2>
+		<p>The nature of fuzzy searching is that it can search for results in a list in alternate ways, rather than relying solely on an exact match to what a user has inputted. This includes misspelt words, the correct letters but in the wrong order, or alternative spelling of a word (i.e. something that 'sounds' phonetically like the word).</p>
+
+		<p>Not only that, but fuzzy searching can take in associated or related information for each search result, rather than just the word. For example if a user is searching for a book, they may want to search by author, or ISBN - not just by title.</p>
+
+		<p>Below is an autocomplete for the same list of countries as above, but with a couple of differences - it allows for fuzzy searching, and is able to interpret additional information to help the user find the result they may be looking for. In this case, it allows users to search by ISO country code as well as the counry itself.</p>
+
+		<h3>Search examples that will return <code>Croatia</code>:</h3>
+		<ul>
+			<li>Cro (options appear after typing 3 letters)</li>
+			<li>Croatia</li>
+			<li>Croasha</li>
+			<li>HN (the country code)</li>
+			<li>crosha</li>
+			<li>Crowaysha</li>
+			<li>croaysha</li>
+		</ul>
+		<p>And many more I likely haven't thought of...</p>
+
+		<hr>
+
+		<form>
+			<label for="fuzzy-search">Search for a country or ISO code:</label>
+			<input name="country" id="fuzzy-search" autocomplete="off" autofocus="" placeholder="Country or dependent territory">
+		</form>
+
+		<hr>
+
+		<h2>Types of fuzzy searching</h2>
+
+		<p>I didn't create the logic for this "fuzzy" searching, I'm merely showing the ways you can accomplish better searching to help users, with and without acccess needs, and provide examples of them so that you can easily recreate the behaviour and implement it into your own sites.</p>
+
+		<h3><a href="https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance" target="_blank">Jaro–Winkler distance algorithm</a> - Missplete</h3>
+
+		<p>This algorithm measures how many characters there are in common between the text that the user has entered and the list of possible autocomplete options. This combats the issue of human error where text is entered quickly but in the wrong order, but also takes into account the idea of a user incorrectly spelling a word through sounding it out but getting a fair amount of the letters correct. For example, Croatia is pronounced 'cro-ay-sha' which, despite being the incorrect spelling, has 5 of the 7 letter in common with the correct spelling.</p>
+
+		<p>This is the approach used in the above example, and the code was created by <a href="https://github.com/xavi" target="_blank">Xavi</a>, and for the purpose of this example all of the code has been compiled so it doesn't require webpack or NPM to run. However the full source code and installation instructions for missplete can be found <a href="https://github.com/xavi/miss-plete" target="_blank">in Xavi's Github repository</a> if you're interested.</p>
+
+		<h3>Levenshtein distance - Fuse</h3>
+
+		<p>The Levenshtein distance (also known as edit distance), is the minimum number of single-character edits (insertions, deletions or substitutions) required between two words to change one into the other. In this case, it compares what the user has entered against the list of possible options, and determines which it could get to with the fewest edits.</p>
+
+		<p>The most used version of this with autocomplete was created by Kiro Risk, a Software Engineer at LinkedIn, who created <a href="https://fusejs.io/" target="_blank">Fuse JS</a>.</p>
+
+		<h2>Which should I use?</h2>
+		<p>Both provide a significant improvement on standard "strict" searching by allowing for human error, and by allowing the search to associate multiple pieces of informatiomn with each result to make it easier to find. In <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.65.7311&rep=rep1&type=pdf" target="_blank">research conducted on both</a>, Jaro-Winkler was considered the faster approach of the two, but the Fuse library is more heavily supported as a project. In my opinion there is very little between the two, so you can simply choose which library fits most neatly with your needs.</p>
+	</section>
+</main>
+
+<footer>
+	<p>Copyright Joe's website emporium.</p>
+	<p>Part of a series of examples for the book 'Practical Web Inclusion and Accessibility' by Ashley Firth</p>
+</footer>
+
+<!-- strict search JS -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+<script src="js/autocomplete.js"></script>
+<!-- fuzzy search JS -->
+<script src="js/missplete.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+	<meta charset="UTF-8">
+	<title>ARIA &amp; Headings - Practical Web Inclusion and Accessibility</title>
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/aria-and-headings.css">
+</head>
+<body>
+
+<header>
+	<nav>
+		<button aria-label="Navigation Menu" aria-expanded="false" class="menu__item toggle"><span></span></button>
+		<ul class="menu" id="menu">
+			<li class="menu__item"><a href="https://twitter.com/mrfirthy" class="link link--dark">Twitter</a></li>
+			<li class="menu__item"><a href="mailto:ashley@mrfirthy.me" class="link link--dark">Email</a></li>
+			<li class="menu__item"><a href="https://codepen.io/mrfirthy" class="link link--dark">Codepen</a></li>
+			<li class="menu__item"><a href="https://github.com/mrfirthy" class="link link--dark">Github</a></li>
+		</ul>
+    </nav>
+    <div class="hero">
+		<h1 class="hero__title">Joe's website emporium</h1>
+		<p class="hero__description">For all your high quality, accessible web needs</p>
+    </div>
+    <div class="hero__terminal">
+		<pre>
+			<code class="shell-session demo">Today's lesson: <span>ARIA and Headings</span></code>
+		</pre>
+    </div>
+</header>
+
+<main class="wrapper">
+	<section>
+		<h2>Status message using <code class="code code--inline">aria-live</code></h2>
+		<p>In this example, we randomly update the status of the text below (the cost of a coffee in Soho) to a number between 1 and 1,000 every 30 seconds.</p>
+		<p>With the <code class="code code--inline">aria-live</code> role on the parent element, a screen reader will notify the user each time it changes, even if they're reading other content.</p>
+		<p>Of course you wouldn't use <code class="code code--inline">aria-live</code> in this way as it is far too intrusive, but it acts as a good example of how you can inform screen reader users of a change in status or the result of an action, even whilst they're browsing.</p>
+		
+		<hr>
+
+		<div class="nohighlight code">
+			<div role="alert" aria-live="assertive">
+				<h3 id="js-aria-live">Current cost of a coffee in Soho: <strong>&pound;3</strong></h3>
+			</div>
+		</div>
+
+		<hr>
+	</section>
+
+	<section>
+		<h2>Accessible slider</h2>
+		<p>As we covered in the book, here is an example of an HTML input providing a range between two values that a user can choose a number between using the slider. We use <code class="code code--inline">aria-valuemin</code> and <code class="code code--inline">aria-valuemax</code> to pass the threshold information to a screen reader, and <code class="code code--inline">aria-valuenow</code> to return the value they've selected (this will update as they interact with the slider).</p>
+		<p>The text below this slider gives a visual representation of the current value, which you can compare to what the screen reader outputs to confirm that they match.</p>
+
+		<hr>
+
+		<label for="slider">Set the volume (not a real volume control)</label>
+		<pre class="nohighlight code">
+			<input type="range"
+				id="slider" 
+				min="1"
+				max="100"
+				value="50"
+				step="1"
+				aria-valuemin="1"
+				aria-valuemax="100"
+				aria-valuenow="50"
+				oninput="outputUpdate(value)"
+			>
+		</pre>
+		<p>Volume is now: <strong><output for="slider" id="js-slider-volume">50</output></strong></p>
+
+		<hr>
+	</section>
+
+	<section>
+		<h2>Checkbox ARIA role</h2>
+		<p>This example shows two checkboxes: the first is a custom checkbox created using a &lt;span&gt; tag (although the tag isn't important here), and the second is a native checkbox. Using the ARIA role of checkbox, along with a small amount of CSS and JavaScript code, allows us to create something that functions in the same way as a native checkbox.</p>
+
+		<p>The reason this example is here is that many people decide to create custom checkboxes, but often forget that they need to add some attributes in order to ensure that screen readers can recognise their purpose and interact with them. Those attributes are <code class="code code--inline">role="checkbox"</code> so a screen reader recognises it as such, <code class="code code--inline">aria-checked</code> (which we change on click or key press to mimic 'toggling'), <code class="code code--inline">tabindex="0"</code> to ensure keyboards can interact with it, and <code class="code code--inline">aria-labelledby</code> so that the checkbox can be toggled by clicking its label like a native checkbox can.</p>
+
+		<p>Please note that this is purely an example of how to make a checkbox with custom markup accessible - <strong>I in no way advocate this</strong>. Wherever possible you should use the native checkbox input. They can be styled in the same way as above, I have merely kept it unaltered to show you default style. The other benefits of using the native inputs are that it leaves less to chance on whether your page will be accessible, doesn't require you to add custom CSS and JavaScript to make it work in the first place, and makes it easier to understand the code.</p>
+
+		<hr>
+
+		<div class="nohighlight code">
+			<div class="field">
+				<h3>Custom checkbox</h3>
+				<span
+					role="checkbox"
+					aria-checked="false"
+					id="checkbox-aria"
+					onclick="changeCheckbox(event)"
+					onKeyPress="changeCheckbox(event)"
+				   	tabindex="0"
+				   	aria-labelledby="checkbox-aria-label"></span>
+
+				<label
+					id="checkbox-aria-label"
+					onclick="changeCheckbox()"
+					onKeyPress="changeCheckbox()"
+				>
+					Remember my preferences
+				</label>
+			</div>
+
+			<div class="field">
+				<h3>Native checkbox</h3>
+				<input type="checkbox" id="checkbox-native">
+				<label for="checkbox-native">Remember my preferences</label>
+			</div>
+		</div>
+
+		<hr>
+	</section>
+
+	<section>
+		<h2>aria-hidden</h2>
+		<p>This example simply shows a piece of content that, with the <code class="code code--inline">aria-hidden="true"</code> attribute added, is ignored by screen readers.</p>
+		<p>In most cases, if content is being hidden from users, that content should be hidden from all users. For this reason, it's important that you only hide content that is purely for decorative or visual purposes, and that you're not inadvertently removing useful information for users using assistive technologies.</p>
+		<p>A good example of this is below, where we hide the icon next to the text with <code class="code code--inline">aria-hidden="true"</code>, as it's purely decorative and no meaning is lost to screen readers without it:</p>
+
+		<hr>
+
+		<div class="nohighlight code">
+			<h3><i class="fas fa-magic" aria-hidden="true"></i> The power of magic</h3>
+		</div>
+
+		<hr>
+	</section>
+
+	<section>
+		<h2>Offscreen Headers</h2>
+		<p>There are some occasions where information is apparent visually, but may not be apparent to screen reader users. Hypothetical examples could be content trapped inside visuals (which should be avoided at all costs), or actions represented by images, icons, or even animations that make it obvious what is required of the user provided they can see them. In these cases, it is important to provide that context to screen readers but in a way that doesn't impact a page's design.</p>
+
+		<p>Below I have positioned a header offscreen just above the text content. You won't be able to see it, but you can discover it by right-clicking and selecting <code class="code code--inline">Inspect Element</code>, or by firing up a screen reader and listening to the section. Go ahead and try it!</p>
+
+		<hr>
+
+		<div class="nohighlight code">
+			<h2 class="screenreader-only">This is my section header positioned off screen to provide context for screen readers</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+
+		<hr>
+	</section>
+
+	<section>
+		<h2>Heading structure</h2>
+		<p>In the chapter we discussed the importance of a clear heading structure, and ensuring that the hierarchy is laid out correctly in order to make it easier for screen readers to navigate the page via headers alone if they wished to.</p>
+		<p>All headers full under the main page heading of "Joe's website emporium", and there is a consistent use of level 2 headings throughout the page. In certain instances where we address more than one topic in a section, or we are displaying an example, a heading level 3 is used. This shows that it is important but within the context of the level 2 heading section in which it sits.</p>
+
+		<hr>
+
+		<pre class="nohighlight code">
+			<code>
+				<img src="img/heading-structure.png" alt="A visual representation of the heading structure of this web page">
+			</code>
+		</pre>
+
+		<hr>
+	</section>
+
+	<section>
+		<h2>aria-labelledby</h2>
+		<p>You can sometimes use your heading structure to greater benefit screen readers by associating a title within a section with the section itself. You can achieve this using <code class="code code--inline">aria-labelledby</code>, and the result is that when it reaches the section, a screen reader will announce the section followed by the contents of the title - providing greater context:</p>
+
+		<hr>
+
+		<div class="nohighlight code">
+			<section aria-labelledby="goldfish-header">
+				<h3 id="goldfish-header">Everything you need to know about gold fish</h3>
+				<p>The title above will be read out when a screen reader navigates to the section, and not just when it interacts with the title itself.</p>
+			</section>
+		</div>
+
+		<hr>
+	</section>
+
+	<section>
+		<h2>Further reading</h2>
+		<p>As with any book, it's impossible to cover every single aspect and scenario of a topic. The examples above were chosen to best help you understand the important ways in which you can improve your sites for users leveraging assistive technologies. These each fell into our three main areas: <strong>Perceive</strong>, <strong>Navigate</strong>, and <strong>Engage</strong>.</p>
+		<p>Feel free to steal the code for every one of these examples and implement them into your own sites. For those of you looking to go a little deeper into the world of ARIA and screen readers, I've compiled some useful links below that should point you in the right direction. Enjoy!</p>
+
+		<hr>
+
+		<pre class="nohighlight code">
+			<code>
+				<a href="https://www.w3.org/TR/html-aria" target="_blank">ARIA Spec from W3C</a>
+				<a href="https://developers.google.com/web/fundamentals/accessibility/semantics-aria/#what-can-aria-do" target="_blank">Google's introduction to ARIA</a>
+				<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles" target="_blank">MDN web docs - WAI-ARIA Roles</a>
+				<a href="https://www.w3.org/WAI/PF/aria/states_and_properties" target="_blank">W3C - Full list of ARIA states and properties</a>
+			</code>
+		</pre>
+
+		<hr>
+	</section>
+</main>
+
+<footer>
+	<p>Copyright Joe's website emporium.</p>
+	<p>Part of a series of examples for the book 'Practical Web Inclusion and Accessibility' by Ashley Firth</p>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/aria-and-headings.js"></script>
+</body>
+</html>
